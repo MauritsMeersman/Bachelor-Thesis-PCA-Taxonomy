@@ -1,2 +1,23 @@
-# PCA Test Taxonomy
- In this bachelor's thesis over a thousand specimens still required identification and would eventually be registered in the collection. During these identifications, challenges were encountered in distinguishing two cichlid species, Serranochromis altus (WINEMILLER & KELSO-WINEMILLER, 1991) and Serranochromis angusticeps (BOULENGER, 1907). A taxonomic study based on morphology was conducted on these two species. The specimens identified as belonging to either of these two species were divided into two groups based on the presence or absence of an eye-stripe complex (vermiculations around the eye in a star-like pattern). According to the available identification keys, S. altus never possesses this characteristic, while S. angusticeps exhibits the eye-stripe complex. Principal component analyses revealed the presence of two groups, although with a large degree of overlap. The PCA-derived grouping was not based on sex or growth. We could conclude that the eye-stripe complex is not a reliable characteristic for distinguishing the two species, but we were unable to find an alternative differentiating characteristic. 
+# Species Differentiation Analysis
+
+## Background
+
+This project involves the statistical analysis of two sympatric sister species, *S. altus* and *S. angusticeps*, which have undergone a recent speciation event. Our aim is to identify distinguishing characteristics using Principal Component Analysis (PCA) and hypothesis testing to differentiate between these species.
+
+## Code Overview
+
+The repository contains scripts for the following tasks:
+
+- **Data Preparation**: Loading and preparing datasets for analysis.
+- **PCA Analysis**: Performing PCA on different subsets of the data and visualizing the results.
+- **Normality Testing**: Assessing the normality of variables using the Shapiro-Wilk test.
+- **Hypothesis Testing**: Conducting ANOVA and Kruskal-Wallis tests based on the normality of the data.
+- **Visualization**: Creating various plots to visualize the data and the PCA results.
+- **Results Interpretation**: Adding PCA scores to the data frames and plotting factor loadings.
+
+## Installation
+
+To run the scripts in this repository, you need R installed on your system along with several packages. You can install the necessary packages by running the following command in your R console:
+
+```R
+install.packages(c("ggplot2", "Factoshiny", "FactoMineR", "factoextra", "ggbiplot", "ggpmisc", "readxl"))
