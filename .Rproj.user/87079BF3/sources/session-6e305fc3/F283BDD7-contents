@@ -1,0 +1,60 @@
+##### PCA script example ######
+
+
+#### load data ###
+dfmorph <- read.delim("dataset_nieuw")
+str(dataset_enkel_getallen)      #check variable types (only PCA with numeric variables)
+view(dataset_enkel_getallen)
+
+### PCA ###
+
+#perform PCA on only selected numeric variables (here cols 18:52)
+res.pca = PCA([,18:52], scale.unit=FALSE, graph=T, ncp=5)  
+# scaling: scale.unit=F (no scaling, on log-transformed measurements, shows the covariance matrix)
+# scale.unit = T (scaling, on raw data, shows the correlation matrix)
+
+
+# Plot PCA
+plot.PCA(res.pca, axes=c(1, 2), choix="ind", habillage='none', options(ggrepel.max.overlaps = Inf)) #inspect PC1 and PC2
+plot.PCA(res.pca, axes=c(2, 3), choix="ind", habillage='none', options(ggrepel.max.overlaps = Inf)) #inspect PC2 and PC3
+plot.PCA(res.pca, axes=c(3, 4), choix="ind", habillage='none', options(ggrepel.max.overlaps = Inf))
+
+#add pc scores to data frame
+dataset_nieuw$pc1 <- res.pca$ind$coord[, 1]
+dataset_nieuw$pc2 <- res.pca$ind$coord[, 2]
+dataset_nieuw$pc3 <- res.pca$ind$coord[, 3]
+dataset_nieuw$pc4 <- res.pca$ind$coord[, 4]
+
+#create data frame for variable loadings
+pca.vars <- res.pca$var$coord %>% data.frame
+pca.vars$vars <- rownames(pca.vars)
+pca.vars.m <- melt(pca.vars, id.vars = "vars")
+
+#plot pca biplot
+fviz_pca_biplot(res.pca, select.var = list(contrib = 6), geom = "point", pointsize=1.5,
+                col.ind = dfmorph$population,addEllipses = T, ellipse.level = 0.95, 
+                label = "var", labelsize = 3,col.var = "black",
+                legend.title = "Name", axes=c(2,3),
+                repel=T,
+                ellipse.type="convex",
+                title="")  #use of convex hulls instead of ellipses, "convex" can be left out to create regular ellipses
+
+# Create a scree plot to inspect factor loadings
+fviz_screeplot(res.pca, addlabels = TRUE)
+
+# Plot factor loadings for PC1
+barplot(res.pca$var$contrib[,1], main="Factor Loadings for PC1", xlab="Variables", ylab="Loadings", names.arg=colnames(dfmorph[,18:52]))
+
+# Plot factor loadings for PC2
+barplot(res.pca$var$contrib[,2], main="Factor Loadings for PC2", xlab="Variables", ylab="Loadings", names.arg=colnames(dfmorph[,18:52]))
+
+# Plot factor loadings for PC3
+barplot(res.pca$var$contrib[,3], main="Factor Loadings for PC3", xlab="Variables", ylab="Loadings", names.arg=colnames(dfmorph[,18:52]))
+
+
+#visualise allometry and inspect outliers
+ggplot(dfmorph, aes(x=pc1, y=SL, label=rownames(dfmorph), color=population)) +
+  geom_text() +
+  geom_point()  
+
+

@@ -1,0 +1,10 @@
+install.packages("BiocManager")
+BiocManager::install()
+
+BiocManager::install"dada2"
+BiocManager::install("phyloseq")
+install.packages("ggplot2")
+library("dada2")
+library("phyloseq")
+library("ggplot2")
+

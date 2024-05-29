@@ -1,0 +1,50 @@
+# Run enkel in het begin 1 keer
+install.packages(c(
+  'readxl', 'corrgram', 'ellipse',
+  "RColorBrewer", "ggpairs", "scatterplot",
+  "GGally"))
+
+
+
+
+# Data voorbereiden, hier verwijderen we alle non-numeric waarden en binaire data
+dataset_enkel_getallen <- data_perc[,!names(data_perc) %in% c("pc1", "pc2","pc3", "pc4")]
+
+dataset_enkel_getallen <- dataset_nieuw[,!names(dataset_nieuw) %in% c("sex", "spots", "star", "spots pect fin", "bokaal","pel_spine_L", "snout_L", "orbit_L","interorbit_W", "head_W", "pec_ray_L", "dent_toothp_W")]
+
+
+########### ELLIPSE PLOT  ###############################
+library(corrgram)
+library(ellipse)
+library(RColorBrewer)
+# maak kleuren schema
+my_colors <- brewer.pal(5, "Spectral")
+my_colors <- colorRampPalette(my_colors)(100)
+
+# Order the correlation matrix
+ord <- order(data[1,])
+data_ord <- data[ord, ord]
+plotcorr(data_ord , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
+
+install.packages("GGally")
+library(GGally)
+
+########## CORRELOGRAM PLOT #############################
+library(ggpairs)
+corrgram(data_perc,
+         main="Numeric Characteristics Correlation Matrix in PC2/PC1 Order",
+         ORDER=TRUE,
+         lower.panel=panel.pts, upper.panel=panel.conf,
+         diag.panel=panel.density)
+# om andere dingen te laten zien in de plot: https://r-graph-gallery.com/115-study-correlations-with-a-correlogram.html
+# uitleg PC2/PC1 component: https://www.reddit.com/r/statistics/comments/7cv2d0/principle_component_analysis_pc1_and_pc2/
+
+
+# Soort specific corelogram plot
+library(GGally)
+GGally::ggpairs(data_perc, ggplot2::aes(colour=Species))
+
+
+
+
+
